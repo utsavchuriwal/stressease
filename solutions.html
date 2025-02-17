@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link href="https://fonts.googleapis.com/css2?family=Dynapuff&display=swap" rel="stylesheet">
+    <title>Solutions - StressEase</title>
+
+    <style>
+      /* Base styles */
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        list-style: none;
+        text-decoration: none;
+      }
+      body {
+        background-color: black;
+        font-family: sans-serif;
+        color: white;
+      }
+      .title {
+        color: white;
+        font-size: 48px;
+        font-weight: bold;
+        white-space: nowrap;
+        font-family: 'Dynapuff', cursive;
+        text-shadow: 0 0 10px #fff, 0 0 20px #fff, 0 0 30px #fff;
+        line-height: 1;
+      }
+      nav {
+        background: url('https://images8.alphacoders.com/136/1363709.png') no-repeat center top;
+        background-size: cover;
+        background-position: center 30%;
+        height: 86px;
+        padding: 1rem;
+        display: flex;
+        background-color: rgb(34, 37, 49);
+      }
+      .ham-menu {
+        height: 50px;
+        width: 40px;
+        margin-left: auto;
+        position: relative;
+        cursor: pointer;
+      }
+      .ham-menu span {
+        display: block;
+        width: 100%;
+        height: 5px;
+        background-color: white;
+        border-radius: 25px;
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        transform: translate(-50%, -50%);
+        transition: .3s ease;
+      }
+      .ham-menu span:nth-child(1) {
+        top: 25%;
+      }
+      .ham-menu span:nth-child(3) {
+        top: 75%;
+      }
+      .ham-menu.active span {
+        background-color: white;
+      }
+      .ham-menu.active span:nth-child(1) {
+        top: 50%;
+        transform: translate(-50%, -50%) rotate(45deg);
+      }
+      .ham-menu.active span:nth-child(2) {
+        opacity: 0;
+      }
+      .ham-menu.active span:nth-child(3) {
+        top: 50%;
+        transform: translate(-50%, -50%) rotate(-45deg);
+      }
+      
+      /* Off-screen menu */
+      .off-screen-menu {
+        background: rgba(255, 255, 255, 0.1);
+        backdrop-filter: blur(10px);
+        width: 250px;
+        position: fixed;
+        top: 100px;
+        right: -260px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;    
+        justify-content: center;
+        text-align: center;
+        font-size: 2.5rem;
+        padding: 15px;
+        border-radius: 15px;
+        box-shadow: 0px 0px 20px rgba(255, 255, 255, 0.5);
+        transition: right 0.3s ease-in-out;
+      }
+      .off-screen-menu.active {
+        right: 20px;
+      }
+      .off-screen-menu ul li a {
+        color: white;
+        text-decoration: none;
+        font-size: 24px;
+        display: block;
+        padding: 10px 0;
+      }
+
+      /* Solutions Title */
+      h2 {
+        font-family: 'Anton', sans-serif;
+        font-size: 70px;
+        font-weight: 900;
+        text-transform: uppercase;
+        color: #ff4d6d;
+        text-align: center;
+        -webkit-text-stroke: 3px white;
+        text-shadow: 0 0 10px #ff4d6d, 0 0 20px #ff4d6d;
+        margin-top: 30px;
+      }
+      h3 {
+  font-family: 'Anton', sans-serif;
+  font-size: 50px;
+  font-weight: 900;
+  text-transform: uppercase;
+  color: white;
+  -webkit-text-stroke: 3px white;
+  letter-spacing: 2px;
+}
+
+h4 {
+  font-family: 'Anton', sans-serif;
+  font-size: 50px;
+  font-weight: 900;
+  text-transform: uppercase;
+  color: white;
+  -webkit-text-stroke: 3px white;
+  letter-spacing: 2px;
+}
+
+
+      /* Slideshow Styles */
+      .slideshow-container {
+        position: relative;
+        max-width: 60%;
+        margin: 40px auto;
+        background: #222;
+        padding: 20px;
+        border-radius: 15px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+      .slide {
+        display: none;
+        width: 100%;
+      }
+      .slide.active {
+        display: block;
+      }
+      .slide-content {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: white;
+      }
+      .slide img {
+        width: 450px;
+        border-radius: 10px;
+        margin-right: 20px;
+      }
+      .text-content {
+        max-width: 600px;
+        text-align: left;
+      }
+      h3 {
+        font-size: 45px;
+        font-weight: bold;
+      }
+      h4 {
+        font-size: 40px;
+        font-weight: bold;
+      }
+      p {
+        font-size: 20px;
+        line-height: 1.6;
+      }
+      .prev, .next {
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
+        background: white;
+        color: black;
+        border: none;
+        padding: 15px 20px;
+        cursor: pointer;
+        font-size: 24px;
+        border-radius: 50%;
+      }
+      .prev {
+        left: -90px;
+      }
+      .next {
+        right: -90px;
+      }
+      .slide-number {
+        position: absolute;
+        bottom: 10px;
+        right: 20px;
+        font-size: 20px;
+        color: white;
+      }
+      .off-screen-menu ul li a {
+  color: white;
+  text-decoration: none;
+  font-size: 24px;
+  display: block;
+  padding: 10px 0;
+  transition: color 0.3s ease-in-out;
+}
+
+.off-screen-menu ul li a:hover {
+  color: #6F86FF; /* Same hover effect as index */
+}
+
+.off-screen-menu ul li a.active {
+  font-weight: bold;
+  color: #ff4d6d;
+  text-shadow: 0 0 10px #ff4d6d, 0 0 20px #ff4d6d, 0 0 30px #ff4d6d; /* Glow effect */
+}
+    </style>
+  </head>
+  <body>
+    <div class="off-screen-menu" id="menu">
+      <ul>
+        <li><a href="index.html">Home</a></li>
+        <li><a href="#" class="active">Solutions</a></li>
+        <li><a href="resources.html">Resources</a></li>
+      </ul>
+    </div>
+
+    <nav>
+      <div class="title">StressEase</div>
+      <div class="ham-menu" id="menuToggle">
+        <span></span>
+        <span></span>
+        <span></span>
+      </div>
+    </nav>
+
+    <h2>Solutions</h2>
+
+    <!-- Slideshow -->
+    <div class="slideshow-container">
+      <button class="prev" onclick="moveSlide(-1)">&#8592;</button>
+
+      <div class="slide active">
+        <div class="slide-content">
+          <img src="https://cdn-icons-png.flaticon.com/512/4310/4310355.png" alt="Image 1"><br>
+          <div class="text-content">
+            <h3>Physical Activities</h3><br><br>  
+            <p><b>Exercise:</b> Engaging in physical activities like walking, jogging, yoga, or dancing helps release endorphins, which improve mood.<br>
+             <br> <b>Deep Breathing:</b> Practicing deep breathing (e.g., box breathing or the 4-7-8 technique) calms the nervous system.
+              <br><br><b>Progressive Muscle Relaxation:</b> Tensing and then relaxing different muscle groups helps relieve tension.</p>
+          </div>
+        </div>
+      </div>
+      <div class="slide">
+        <div class="slide-content">
+          <img src="https://i.ibb.co/F4Z8TWsh/Pngtree-mental-health-problems-flat-illustration-6855460.png" alt="Image 1"><br>
+          <div class="text-content">
+            <h4>Mental and Emotional Strategies</h4><br><br>  
+            <p><b>Mindfulness & Meditation:</b> Helps you stay present and reduces overthinking.<br>
+             <br> <b>Journaling:</b> Writing down thoughts and feelings can help process emotions.
+              <br><br><b>Cognitive Reframing:</b> Changing negative thought patterns to more positive perspectives can reduce stress.</p>
+          </div>
+        </div>
+      </div>
+      <div class="slide">
+        <div class="slide-content">
+          <img src="https://i.ibb.co/wNStVv4X/Pngtree-people-listening-the-music-6949897.png" alt="Image 1"><br>
+          <div class="text-content">
+            <h4>Engaging in Relaxing Activities</h4><br><br>  
+            <p><b>Listening to Music:</b> Soothing music can lower stress hormones<br>
+              <br> <b>Spending Time in Nature: </b> Being outdoors, especially around green spaces, helps reduce anxiety.
+               <br><br><b>Hobbies:</b> Engaging in creative or enjoyable activities (painting, reading, playing an instrument) is a great stress reliever.</p>
+          </div>
+        </div>
+      </div>
+      <div class="slide">
+        <div class="slide-content">
+          <img src="https://coachfoundation.com/wp-content/uploads/2023/06/120x120-04.png.webp" alt="Image 1"><br>
+          <div class="text-content">
+            <h3>Social Support</h3><br><br>  
+            <p><b>Talking to Someone:</b> Sharing with friends, family, or a therapist can ease stress.<br>
+             <br> <b>Setting Boundaries: </b>Learning to say no to unnecessary commitments prevents burnout.
+              <br><br></p>
+          </div>
+        </div>
+      </div>
+
+      <button class="next" onclick="moveSlide(1)">&#8594;</button>
+
+      <!-- Slide Number -->
+      <div class="slide-number">1</div>
+    </div>
+
+    <script src="app.js"></script>
+  </body>
+</html>
